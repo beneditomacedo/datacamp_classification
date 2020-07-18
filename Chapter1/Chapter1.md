@@ -9,6 +9,8 @@ output:
 
 ## Chapter 1: k-Nearest Neighbors (kNN)
 
+### Preparing datasets
+
 
 ```r
 knitr::spin_child('prepare_datasets.R')
@@ -39,7 +41,7 @@ next_sign <- raw_signs[raw_signs$sample == "example",]
 next_sign <- next_sign[-c(1:3)]
 ```
 
-# Recognizing a road sign with kNN
+### Recognizing a road sign with kNN
 
 
 ```r
@@ -66,7 +68,7 @@ knn(train = signs[-1], test = next_sign, cl = sign_types)
 ## Levels: pedestrian speed stop
 ```
 
-# Exploring the traffic sign dataset
+### Exploring the traffic sign dataset
 
 
 ```r
@@ -95,7 +97,7 @@ knn(train = signs[-1], test = next_sign, cl = sign_types)
 ## Levels: pedestrian speed stop
 ```
 
-# Classifying a collection of road signs
+### Classifying a collection of road signs
 
 
 ```r
@@ -135,7 +137,7 @@ mean(signs_actual == signs_pred)
 ## [1] 0.9322034
 ```
 
-# Testing other 'k' values
+### Testing other 'k' values
 
 
 ```r
@@ -168,7 +170,7 @@ mean(k_7 == signs_actual)
 ```
 
 ```
-## [1] 0.9661017
+## [1] 0.9491525
 ```
 
 ```r
@@ -182,7 +184,7 @@ mean(k_15 == signs_actual)
 ## [1] 0.8813559
 ```
 
-# Seeing how the neighbors voted
+### Seeing how the neighbors voted
 
 
 ```r
@@ -220,4 +222,56 @@ head(sign_prob)
 
 ```
 ## [1] 0.5714286 0.5714286 0.8571429 0.5714286 0.8571429 0.5714286
+```
+
+## Extra
+
+### Normalize data
+
+
+```r
+knitr::spin_child('normalize.R')
+```
+
+```r
+## Script name: normalize.R
+##
+## Purpose of script: Normalize data
+##
+```
+
+```r
+# Define a min-max normalize() function
+normalize <- function (x) {
+  return ((x - min(x))/ (max(x) - min(x)))
+}
+```
+
+```r
+knitr::spin_child('ex_normalize.R')
+```
+
+```r
+## Script name: ex_normalize.R
+##
+## Purpose of script: Example of how to normalize data
+##
+```
+
+```r
+summary(signs$r1)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    3.00   46.75   85.50  100.87  152.75  234.00
+```
+
+```r
+summary(normalize(signs$r1))
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.0000  0.1894  0.3571  0.4237  0.6483  1.0000
 ```

@@ -13,36 +13,47 @@ library(class)
 
 ## Chapter 1: k-Nearest Neighbors (kNN)
 
+### Preparing datasets
+
 ```{r cars}
 knitr::spin_child('prepare_datasets.R')
 ```
 
-# Recognizing a road sign with kNN
+### Recognizing a road sign with kNN
 
 ```{r}
 knitr::spin_child('recognize_road_sign.R')
 ```
 
-# Exploring the traffic sign dataset
+### Exploring the traffic sign dataset
 
 ```{r}
 knitr::spin_child('explore_sign_dataset.R')
 ```
 
-# Classifying a collection of road signs
+### Classifying a collection of road signs
 
 ```{r}
 knitr::spin_child('classify_collection.R')
 ```  
 
-# Testing other 'k' values
+### Testing other 'k' values
 
 ```{r}
 knitr::spin_child('test_other_k.R')
 ``` 
 
-# Seeing how the neighbors voted
+### Seeing how the neighbors voted
 
 ```{r}
 knitr::spin_child('see_probability.R')
+``` 
+
+## Extra
+
+### Normalize data
+
+```{r}
+knitr::spin_child('normalize.R')
+knitr::spin_child('ex_normalize.R')
 ``` 
