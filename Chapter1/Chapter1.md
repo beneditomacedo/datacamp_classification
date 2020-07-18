@@ -135,3 +135,89 @@ mean(signs_actual == signs_pred)
 ## [1] 0.9322034
 ```
 
+# Testing other 'k' values
+
+
+```r
+knitr::spin_child('test_other_k.R')
+```
+
+```r
+## Script name: testing_other_k.R
+##
+## Purpose of script: Testing other k values
+##
+```
+
+```r
+# Compute the accuracy of the baseline model (default k = 1)
+k_1 <- knn(train = signs[-1], 
+           test = test_signs[-1], cl = sign_types)
+mean(k_1 == signs_actual)
+```
+
+```
+## [1] 0.9322034
+```
+
+```r
+# Modify the above to set k = 7
+k_7 <- knn(train = signs[-1], 
+           test = test_signs[-1], cl = sign_types, k=7)
+mean(k_7 == signs_actual)
+```
+
+```
+## [1] 0.9661017
+```
+
+```r
+# Set k = 15 and compare to the above
+k_15 <- knn(train = signs[-1], 
+            test = test_signs[-1], cl = sign_types, k=15)
+mean(k_15 == signs_actual)
+```
+
+```
+## [1] 0.8813559
+```
+
+# Seeing how the neighbors voted
+
+
+```r
+knitr::spin_child('see_probability.R')
+```
+
+```r
+## Script name: see_probability.R
+##
+## Purpose of script: See probability of predictions
+##
+```
+
+```r
+# Use the prob parameter to get the proportion of votes for the winning class
+sign_pred <- knn(train = signs[-1], 
+                 test = test_signs[-1], cl = sign_types, k=7, prob=TRUE)
+
+# Get the "prob" attribute from the predicted classes
+sign_prob <- attr(sign_pred, "prob")
+
+# Examine the first several predictions
+head(sign_pred)
+```
+
+```
+## [1] pedestrian pedestrian pedestrian stop       pedestrian pedestrian
+## Levels: pedestrian speed stop
+```
+
+```r
+# Examine the proportion of votes for the winning class
+head(sign_prob)
+```
+
+```
+## [1] 0.5714286 0.5714286 0.8571429 0.5714286 0.8571429 0.5714286
+```

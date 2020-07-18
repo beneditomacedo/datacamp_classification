@@ -35,3 +35,14 @@ knitr::spin_child('explore_sign_dataset.R')
 knitr::spin_child('classify_collection.R')
 ```  
 
+# Testing other 'k' values
+
+```{r}
+knitr::spin_child('test_other_k.R')
+``` 
+
+# Seeing how the neighbors voted
+
+```{r}
+knitr::spin_child('see_probability.R')
+``` 
