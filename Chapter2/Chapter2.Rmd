@@ -15,6 +15,12 @@ library(class)
 
 ### Preparing datasets
 
-```{r cars}
+```{r}
 knitr::spin_child('prepare_datasets.R')
+```
+
+### Computing probabilities
+
+```{r}
+knitr::spin_child('compute_prob.R')
 ```
