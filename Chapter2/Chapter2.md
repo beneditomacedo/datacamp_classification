@@ -45,6 +45,12 @@ head(where9am)
 ## 130 weekday   campus
 ```
 
+```r
+# create thursday9am and saturday9am dataframes
+thursday9am <- data.frame(daytype="weekday")
+saturday9am <- data.frame(daytype="weekend")
+```
+
 ### Computing probabilities
 
 
@@ -76,4 +82,61 @@ print(p_A_given_B)
 
 ```
 ## [1] 0.6
+```
+
+### Simple naive bayes model
+
+
+```r
+knitr::spin_child('simple_naive_bayes_model.R')
+```
+
+```r
+## Script name: simple_naive_bayes_model.R
+##
+## Purpose of script: Build and test a simple naive bayes model
+##
+```
+
+```r
+# Load the naivebayes package
+library(naivebayes)
+```
+
+```
+## Warning: package 'naivebayes' was built under R version 4.0.2
+```
+
+```
+## naivebayes 0.9.7 loaded
+```
+
+```r
+# Build the location prediction model
+locmodel <- naive_bayes(location ~ daytype, data = where9am)
+```
+
+```
+## Warning: naive_bayes(): Feature daytype - zero probabilities are present.
+## Consider Laplace smoothing.
+```
+
+```r
+# Predict Thursday's 9am location
+predict(locmodel, thursday9am)
+```
+
+```
+## [1] office
+## Levels: appointment campus home office
+```
+
+```r
+# Predict Saturdays's 9am location
+predict(locmodel, saturday9am)
+```
+
+```
+## [1] home
+## Levels: appointment campus home office
 ```

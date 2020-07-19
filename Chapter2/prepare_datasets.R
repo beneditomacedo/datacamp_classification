@@ -14,3 +14,7 @@ where9am <- subset(raw_locations, hour==9)
 where9am <- where9am[c(4,7)]
 # show where9am
 head(where9am)
+# create thursday9am and saturday9am dataframes
+thursday9am <- data.frame(daytype="weekday")
+saturday9am <- data.frame(daytype="weekend")
+

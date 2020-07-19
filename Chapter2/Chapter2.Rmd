@@ -24,3 +24,9 @@ knitr::spin_child('prepare_datasets.R')
 ```{r}
 knitr::spin_child('compute_prob.R')
 ```
+
+### Simple naive bayes model
+
+```{r}
+knitr::spin_child('simple_naive_bayes_model.R')
+```
