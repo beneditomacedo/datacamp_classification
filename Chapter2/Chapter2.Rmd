@@ -42,3 +42,9 @@ knitr::spin_child('examine_raw_prob.R')
 ```{r}
 knitr::spin_child('sofisticated_nb_model.R')
 ```
+
+### Using Laplace correction
+
+```{r}
+knitr::spin_child('laplace_correction.R')
+```

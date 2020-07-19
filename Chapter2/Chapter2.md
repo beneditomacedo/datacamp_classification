@@ -69,6 +69,8 @@ head(locations)
 # create weekday_afternoon and weekday_evening dataframes
 weekday_afternoon <- data.frame(daytype="weekday",hourtype="afternoon")
 weekday_evening <- data.frame(daytype="weekday",hourtype="evening")
+# create weekend_afternoon dataframe
+weekend_afternoon <- data.frame(daytype="weekend",hourtype="afternoon")
 ```
 
 ### Computing probabilities
@@ -279,4 +281,45 @@ predict(locmodel, weekday_evening)
 ```
 ## [1] home
 ## Levels: appointment campus home office restaurant store theater
+```
+
+### Using Laplace correction
+
+
+```r
+knitr::spin_child('laplace_correction.R')
+```
+
+```r
+## Script name: laplace_correction.R
+##
+## Purpose of script: Build and test a naive bayes model with laplace correction
+##
+```
+
+```r
+# Observe the predicted probabilities for a weekend afternoon
+predict(locmodel, weekend_afternoon, type="prob")
+```
+
+```
+##      appointment       campus      home      office restaurant      store
+## [1,]  0.02462883 0.0004802622 0.8439145 0.003349521  0.1111338 0.01641922
+##          theater
+## [1,] 7.38865e-05
+```
+
+```r
+# Build a new model using the Laplace correction
+locmodel2 <- naive_bayes(location ~ daytype + hourtype, data = locations, laplace=1)
+
+# Observe the new predicted probabilities for a weekend afternoon
+predict(locmodel2, weekend_afternoon, type="prob")
+```
+
+```
+##      appointment      campus      home      office restaurant      store
+## [1,]  0.02013872 0.006187715 0.8308154 0.007929249  0.1098743 0.01871085
+##          theater
+## [1,] 0.006343697
 ```

@@ -24,3 +24,6 @@ head(locations)
 # create weekday_afternoon and weekday_evening dataframes
 weekday_afternoon <- data.frame(daytype="weekday",hourtype="afternoon")
 weekday_evening <- data.frame(daytype="weekday",hourtype="evening")
+# create weekend_afternoon dataframe
+weekend_afternoon <- data.frame(daytype="weekend",hourtype="afternoon")
+
