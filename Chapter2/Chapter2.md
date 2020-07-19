@@ -140,3 +140,75 @@ predict(locmodel, saturday9am)
 ## [1] home
 ## Levels: appointment campus home office
 ```
+
+### Examine raw probabilities
+
+
+```r
+knitr::spin_child('examine_raw_prob.R')
+```
+
+```r
+## Script name: examine_raw_prob.R
+##
+## Purpose of script: Examine raw probabilities of a naive
+## bayes model
+```
+
+```r
+# Examine the location prediction model
+locmodel
+```
+
+```
+## 
+## ================================== Naive Bayes ================================== 
+##  
+##  Call: 
+## naive_bayes.formula(formula = location ~ daytype, data = where9am)
+## 
+## --------------------------------------------------------------------------------- 
+##  
+## Laplace smoothing: 0
+## 
+## --------------------------------------------------------------------------------- 
+##  
+##  A priori probabilities: 
+## 
+## appointment      campus        home      office 
+##  0.01098901  0.10989011  0.45054945  0.42857143 
+## 
+## --------------------------------------------------------------------------------- 
+##  
+##  Tables: 
+## 
+## --------------------------------------------------------------------------------- 
+##  ::: daytype (Bernoulli) 
+## --------------------------------------------------------------------------------- 
+##          
+## daytype   appointment    campus      home    office
+##   weekday   1.0000000 1.0000000 0.3658537 1.0000000
+##   weekend   0.0000000 0.0000000 0.6341463 0.0000000
+## 
+## ---------------------------------------------------------------------------------
+```
+
+```r
+# Obtain the predicted probabilities for Thursday at 9am
+predict(locmodel, thursday9am , type = "prob")
+```
+
+```
+##      appointment    campus      home office
+## [1,]  0.01538462 0.1538462 0.2307692    0.6
+```
+
+```r
+# Obtain the predicted probabilities for Saturday at 9am
+predict(locmodel, saturday9am, type="prob")
+```
+
+```
+##       appointment       campus      home      office
+## [1,] 3.838772e-05 0.0003838772 0.9980806 0.001497121
+```

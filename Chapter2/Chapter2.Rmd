@@ -30,3 +30,9 @@ knitr::spin_child('compute_prob.R')
 ```{r}
 knitr::spin_child('simple_naive_bayes_model.R')
 ```
+
+### Examine raw probabilities
+
+```{r}
+knitr::spin_child('examine_raw_prob.R')
+```
