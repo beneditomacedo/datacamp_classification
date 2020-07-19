@@ -36,3 +36,9 @@ knitr::spin_child('simple_naive_bayes_model.R')
 ```{r}
 knitr::spin_child('examine_raw_prob.R')
 ```
+
+### Sofisticated naive bayes model
+
+```{r}
+knitr::spin_child('sofisticated_nb_model.R')
+```

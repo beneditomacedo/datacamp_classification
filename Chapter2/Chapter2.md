@@ -49,6 +49,26 @@ head(where9am)
 # create thursday9am and saturday9am dataframes
 thursday9am <- data.frame(daytype="weekday")
 saturday9am <- data.frame(daytype="weekend")
+# create locations dataset
+locations <- raw_locations[c(4,6,7)]
+# show locations
+head(locations)
+```
+
+```
+##   daytype hourtype location
+## 1 weekday    night     home
+## 2 weekday    night     home
+## 3 weekday    night     home
+## 4 weekday    night     home
+## 5 weekday    night     home
+## 6 weekday    night     home
+```
+
+```r
+# create weekday_afternoon and weekday_evening dataframes
+weekday_afternoon <- data.frame(daytype="weekday",hourtype="afternoon")
+weekday_evening <- data.frame(daytype="weekday",hourtype="evening")
 ```
 
 ### Computing probabilities
@@ -211,4 +231,52 @@ predict(locmodel, saturday9am, type="prob")
 ```
 ##       appointment       campus      home      office
 ## [1,] 3.838772e-05 0.0003838772 0.9980806 0.001497121
+```
+
+### Sofisticated naive bayes model
+
+
+```r
+knitr::spin_child('sofisticated_nb_model.R')
+```
+
+```r
+## Script name: sofisticated_nb_model.R
+##
+## Purpose of script: Build and test a sofisticated naive bayes model
+##
+```
+
+```r
+locmodel <- naive_bayes(location ~ daytype + hourtype, data = locations)
+```
+
+```
+## Warning: naive_bayes(): Feature daytype - zero probabilities are present.
+## Consider Laplace smoothing.
+```
+
+```
+## Warning: naive_bayes(): Feature hourtype - zero probabilities are present.
+## Consider Laplace smoothing.
+```
+
+```r
+# Predict Brett's location on a weekday afternoon
+predict(locmodel, weekday_afternoon)
+```
+
+```
+## [1] office
+## Levels: appointment campus home office restaurant store theater
+```
+
+```r
+# Predict Brett's location on a weekday evening
+predict(locmodel, weekday_evening)
+```
+
+```
+## [1] home
+## Levels: appointment campus home office restaurant store theater
 ```

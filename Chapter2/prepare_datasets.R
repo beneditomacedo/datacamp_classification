@@ -17,4 +17,10 @@ head(where9am)
 # create thursday9am and saturday9am dataframes
 thursday9am <- data.frame(daytype="weekday")
 saturday9am <- data.frame(daytype="weekend")
-
+# create locations dataset
+locations <- raw_locations[c(4,6,7)]
+# show locations
+head(locations)
+# create weekday_afternoon and weekday_evening dataframes
+weekday_afternoon <- data.frame(daytype="weekday",hourtype="afternoon")
+weekday_evening <- data.frame(daytype="weekday",hourtype="evening")
