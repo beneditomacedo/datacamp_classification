@@ -49,3 +49,7 @@ knitr::spin_child('missing_data.R')
 ### Build a bit sofisticated logistic regression model
 
 TODO - fix pROC install
+
+### Build a stepwise regression model
+
+TODO - fix pROC install
