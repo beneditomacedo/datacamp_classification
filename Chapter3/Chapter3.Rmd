@@ -1,0 +1,51 @@
+---
+title: 'Datacamp - Supervised Learning in R: Classification'
+output: 
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(eval = TRUE)
+```
+
+## Chapter 3: Logistic Regression
+
+### Preparing datasets
+
+```{r}
+knitr::spin_child('prepare_datasets.R')
+```
+
+### Build a simple logistic regression model
+
+```{r}
+knitr::spin_child('simple_lr_model.R')
+```
+
+### Making binary prediction
+
+```{r}
+knitr::spin_child('make_binary_prediction.R')
+```
+
+### Calculating ROC Curves and AUC
+
+TODO - fix pROC install
+
+### Coding categorical features
+
+```{r}
+knitr::spin_child('code_categorical.R')
+```
+
+### Handling missing data
+
+```{r}
+knitr::spin_child('missing_data.R')
+```
+
+### Build a bit sofisticated logistic regression model
+
+TODO - fix pROC install
