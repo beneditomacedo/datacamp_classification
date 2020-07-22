@@ -1,0 +1,19 @@
+---
+title: 'Datacamp - Supervised Learning in R: Classification'
+output: 
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(eval = TRUE)
+```
+
+## Chapter 4: Classification trees
+
+### Preparing datasets
+
+```{r}
+knitr::spin_child('prepare_datasets.R')
+```
