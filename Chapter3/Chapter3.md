@@ -172,7 +172,66 @@ mean(donors$donation_pred == donors$donated)
 
 ### Calculating ROC Curves and AUC
 
-TODO - fix pROC install
+
+```r
+knitr::spin_child('roc_curves_auc.R')
+```
+
+```r
+## Script name: roc_curves_auc.R
+##
+## Purpose of script: Calculating ROC curves and AUC
+##
+```
+
+```r
+# Load the pROC package
+library(pROC)
+```
+
+```
+## Type 'citation("pROC")' for a citation.
+```
+
+```
+## 
+## Attaching package: 'pROC'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     cov, smooth, var
+```
+
+```r
+# Create a ROC curve
+ROC <- roc(donors$donated, donors$donation_prob)
+```
+
+```
+## Setting levels: control = 0, case = 1
+```
+
+```
+## Setting direction: controls < cases
+```
+
+```r
+# Plot the ROC curve
+plot(ROC, col = "blue")
+```
+
+![](Chapter3_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+
+```r
+# Calculate the area under the curve (AUC)
+auc(ROC)
+```
+
+```
+## Area under the curve: 0.5102
+```
 
 ### Coding categorical features
 
@@ -264,4 +323,300 @@ donors$missing_age <- ifelse(is.na(donors$age),1,0)
 
 ### Build a bit sofisticated logistic regression model
 
-TODO - fix pROC install
+
+```r
+knitr::spin_child('sofisticated_lr_model.R')
+```
+
+```r
+## Script name: sofisticated_lr_model.R
+##
+## Purpose of script: Build and test a bit more sofisticated logistic model
+##
+```
+
+```r
+# Build a recency, frequency, and money (RFM) model
+rfm_model <- glm(donated ~ money + recency * frequency, data = donors, family = "binomial")
+
+# Summarize the RFM model to see how the parameters were coded
+summary(rfm_model)
+```
+
+```
+## 
+## Call:
+## glm(formula = donated ~ money + recency * frequency, family = "binomial", 
+##     data = donors)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -0.3696  -0.3696  -0.2895  -0.2895   2.7924  
+## 
+## Coefficients:
+##                                   Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)                       -3.01142    0.04279 -70.375   <2e-16 ***
+## moneyMEDIUM                        0.36186    0.04300   8.415   <2e-16 ***
+## recencyLAPSED                     -0.86677    0.41434  -2.092   0.0364 *  
+## frequencyINFREQUENT               -0.50148    0.03107 -16.143   <2e-16 ***
+## recencyLAPSED:frequencyINFREQUENT  1.01787    0.51713   1.968   0.0490 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 37330  on 93461  degrees of freedom
+## Residual deviance: 36938  on 93457  degrees of freedom
+## AIC: 36948
+## 
+## Number of Fisher Scoring iterations: 6
+```
+
+```r
+# Compute predicted probabilities for the RFM model
+rfm_prob <- predict(rfm_model, type="response")
+
+# Plot the ROC curve and find AUC for the new model
+library(pROC)
+ROC <- roc(donors$donated,rfm_prob)
+```
+
+```
+## Setting levels: control = 0, case = 1
+```
+
+```
+## Setting direction: controls < cases
+```
+
+```r
+# Plot the ROC curve
+plot(ROC, col = "red")
+```
+
+![](Chapter3_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+
+```r
+# Calculate the area under the curve (AUC)
+auc(ROC)
+```
+
+```
+## Area under the curve: 0.5785
+```
+
+### Build a stepwise regression model
+
+
+```r
+knitr::spin_child('stepwise_regression_model.R')
+```
+
+```r
+## Script name: stepwise_regression_model.R
+##
+## Purpose of script: Build a stepwise regression model
+##
+```
+
+```r
+# Specify a null model with no predictors
+null_model <- glm(donated~1, data = donors, family = "binomial")
+
+# Specify the full model using all of the potential predictors
+full_model <- glm(donated ~ .,data = donors, family = "binomial")
+
+# Use a forward stepwise algorithm to build a parsimonious model
+step_model <- step(null_model, scope = list(lower = null_model, upper = full_model), direction = "forward")
+```
+
+```
+## Start:  AIC=37332.13
+## donated ~ 1
+```
+
+```
+## Warning in add1.glm(fit, scope$add, scale = scale, trace = trace, k = k, : using
+## the 70916/93462 rows from a combined fit
+```
+
+```
+##                     Df Deviance   AIC
+## + frequency          1    28502 37122
+## + money              1    28621 37241
+## + wealth_rating      1    28705 37326
+## + has_children       1    28705 37326
+## + age                1    28707 37328
+## + imputed_age        1    28707 37328
+## + wealth_levels      3    28704 37328
+## + interest_veterans  1    28709 37330
+## + donation_prob      1    28710 37330
+## + donation_pred      1    28710 37330
+## + catalog_shopper    1    28710 37330
+## + pet_owner          1    28711 37331
+## <none>                    28714 37332
+## + interest_religion  1    28712 37333
+## + recency            1    28713 37333
+## + bad_address        1    28714 37334
+## + veteran            1    28714 37334
+## 
+## Step:  AIC=37024.77
+## donated ~ frequency
+```
+
+```
+## Warning in add1.glm(fit, scope$add, scale = scale, trace = trace, k = k, : using
+## the 70916/93462 rows from a combined fit
+```
+
+```
+##                     Df Deviance   AIC
+## + money              1    28441 36966
+## + wealth_rating      1    28493 37018
+## + wealth_levels      3    28490 37019
+## + has_children       1    28494 37019
+## + donation_prob      1    28498 37023
+## + interest_veterans  1    28498 37023
+## + catalog_shopper    1    28499 37024
+## + donation_pred      1    28499 37024
+## + age                1    28499 37024
+## + imputed_age        1    28499 37024
+## + pet_owner          1    28499 37024
+## <none>                    28502 37025
+## + interest_religion  1    28501 37026
+## + recency            1    28501 37026
+## + bad_address        1    28502 37026
+## + veteran            1    28502 37027
+## 
+## Step:  AIC=36949.71
+## donated ~ frequency + money
+```
+
+```
+## Warning in add1.glm(fit, scope$add, scale = scale, trace = trace, k = k, : using
+## the 70916/93462 rows from a combined fit
+```
+
+```
+##                     Df Deviance   AIC
+## + wealth_levels      3    28427 36942
+## + wealth_rating      1    28431 36942
+## + has_children       1    28432 36943
+## + interest_veterans  1    28438 36948
+## + donation_prob      1    28438 36949
+## + catalog_shopper    1    28438 36949
+## + donation_pred      1    28438 36949
+## + age                1    28438 36949
+## + imputed_age        1    28438 36949
+## + pet_owner          1    28439 36949
+## <none>                    28441 36950
+## + interest_religion  1    28440 36951
+## + recency            1    28440 36951
+## + bad_address        1    28441 36951
+## + veteran            1    28441 36952
+## 
+## Step:  AIC=36945.48
+## donated ~ frequency + money + wealth_levels
+```
+
+```
+## Warning in add1.glm(fit, scope$add, scale = scale, trace = trace, k = k, : using
+## the 70916/93462 rows from a combined fit
+```
+
+```
+##                     Df Deviance   AIC
+## + has_children       1    28416 36937
+## + age                1    28424 36944
+## + imputed_age        1    28424 36944
+## + interest_veterans  1    28424 36945
+## + donation_prob      1    28424 36945
+## + catalog_shopper    1    28424 36945
+## + donation_pred      1    28425 36945
+## <none>                    28427 36945
+## + pet_owner          1    28425 36946
+## + interest_religion  1    28426 36947
+## + recency            1    28426 36947
+## + bad_address        1    28427 36947
+## + veteran            1    28427 36947
+## 
+## Step:  AIC=36938.4
+## donated ~ frequency + money + wealth_levels + has_children
+```
+
+```
+## Warning in add1.glm(fit, scope$add, scale = scale, trace = trace, k = k, : using
+## the 70916/93462 rows from a combined fit
+```
+
+```
+##                     Df Deviance   AIC
+## + pet_owner          1    28413 36937
+## + donation_prob      1    28413 36937
+## + catalog_shopper    1    28413 36937
+## + interest_veterans  1    28413 36937
+## + donation_pred      1    28414 36938
+## <none>                    28416 36938
+## + interest_religion  1    28415 36939
+## + age                1    28416 36940
+## + imputed_age        1    28416 36940
+## + recency            1    28416 36940
+## + bad_address        1    28416 36940
+## + veteran            1    28416 36940
+## 
+## Step:  AIC=36932.25
+## donated ~ frequency + money + wealth_levels + has_children + 
+##     pet_owner
+```
+
+```
+## Warning in add1.glm(fit, scope$add, scale = scale, trace = trace, k = k, : using
+## the 70916/93462 rows from a combined fit
+```
+
+```
+##                     Df Deviance   AIC
+## <none>                    28413 36932
+## + donation_prob      1    28411 36932
+## + interest_veterans  1    28411 36932
+## + catalog_shopper    1    28412 36933
+## + donation_pred      1    28412 36933
+## + age                1    28412 36933
+## + imputed_age        1    28412 36933
+## + recency            1    28413 36934
+## + interest_religion  1    28413 36934
+## + bad_address        1    28413 36934
+## + veteran            1    28413 36934
+```
+
+```r
+# Estimate the stepwise donation probability
+step_prob <- predict(step_model, type="response")
+
+# Plot the ROC of the stepwise model
+library(pROC)
+ROC <- roc(donors$donated,step_prob)
+```
+
+```
+## Setting levels: control = 0, case = 1
+```
+
+```
+## Setting direction: controls < cases
+```
+
+```r
+plot(ROC, col = "red")
+```
+
+![](Chapter3_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+
+```r
+auc(ROC)
+```
+
+```
+## Area under the curve: 0.5849
+```
+

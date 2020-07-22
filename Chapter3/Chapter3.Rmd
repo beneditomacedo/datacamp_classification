@@ -32,7 +32,9 @@ knitr::spin_child('make_binary_prediction.R')
 
 ### Calculating ROC Curves and AUC
 
-TODO - fix pROC install
+```{r}
+knitr::spin_child('roc_curves_auc.R')
+```
 
 ### Coding categorical features
 
@@ -48,8 +50,13 @@ knitr::spin_child('missing_data.R')
 
 ### Build a bit sofisticated logistic regression model
 
-TODO - fix pROC install
+```{r}
+knitr::spin_child('sofisticated_lr_model.R')
+```
 
 ### Build a stepwise regression model
 
-TODO - fix pROC install
+```{r}
+knitr::spin_child('stepwise_regression_model.R')
+```
+
