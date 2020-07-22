@@ -126,10 +126,6 @@ library(naivebayes)
 ```
 
 ```
-## Warning: package 'naivebayes' was built under R version 4.0.2
-```
-
-```
 ## naivebayes 0.9.7 loaded
 ```
 
